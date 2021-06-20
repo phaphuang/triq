@@ -1,0 +1,9 @@
+*.png
+*.jpg
+*__pycache__
+*.txt
+*.bmp
+*.h5
+*.zip
+vit_iqa
+databases/results_triq
