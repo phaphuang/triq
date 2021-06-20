@@ -11,8 +11,8 @@ from train.group_generator import GroupGenerator
 from callbacks.evaluation_callback_generator import ModelEvaluationIQGenerator
 from callbacks.warmup_cosine_decay_scheduler import WarmUpCosineDecayScheduler
 
-import os
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
+#import os
+#os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
 
 def identify_best_weights(result_folder, history, best_plcc):
     pos = np.where(history['plcc'] == best_plcc)[0][0]
@@ -141,17 +141,16 @@ def train_main(args):
         callbacks.append(warmup_lr)
 
     # Define optimizer and train
-    with tf.device('/cpu:0'):
-        model_history = model.fit(x=train_generator,
-                                epochs=args['epochs'],
-                                steps_per_epoch=train_steps,
-                                validation_data=validation_generator,
-                                validation_steps=validation_steps,
-                                verbose=1,
-                                shuffle=False,
-                                callbacks=callbacks,
-                                initial_epoch=args['initial_epoch'],
-                                )
+    model_history = model.fit(x=train_generator,
+                            epochs=args['epochs'],
+                            steps_per_epoch=train_steps,
+                            validation_data=validation_generator,
+                            validation_steps=validation_steps,
+                            verbose=1,
+                            shuffle=False,
+                            callbacks=callbacks,
+                            initial_epoch=args['initial_epoch'],
+                            )
     # model.save(os.path.join(result_folder, model_name + '.h5'))
     # plot_history(model_history, result_folder, model_name)
 
